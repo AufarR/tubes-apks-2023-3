@@ -6,7 +6,14 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon -L src/index.js",
-    "database": "/Users/georgesimos/mongodb/bin/mongod --dbpath=/Users/georgesimos//mongodb-data"
+    "database": "/Users/georgesimos/mongodb/bin/mongod --dbpath=/Users/georgesimos//mongodb-data",
+    "breakpoint": "k6 run --out json=breakpoint-result.json src/tests/breakpoint.js",
+    "load": "k6 run --out json=load-result.json src/tests/load.js",
+    "stress": "k6 run --out json=stress-result.json src/tests/stress.js",
+    "spike": "k6 run --out json=spike-result.json src/tests/spike.js",
+    "endurance": "k6 run --out json=endurance-result.json src/tests/endurance.js",
+    "smoke": "k6 run --out json=smoke-result.json src/tests/smoke.js",
+    "tests": "npm run breakpoint && npm run load && npm run stress && npm run spike && npm run endurance && npm run smoke"
   },
   "author": "George Simos <georgesimos.com>",
   "license": "MIT",
