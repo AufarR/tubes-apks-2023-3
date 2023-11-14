@@ -16,8 +16,8 @@ RUN npm install
 COPY . .
 
 # Expose the port from .env
-# ENV APP_PORT=${APP_PORT}
-EXPOSE 8080
+ENV APP_PORT=$APP_PORT
+EXPOSE $APP_PORT
 
 # for development
 CMD npm run dev
