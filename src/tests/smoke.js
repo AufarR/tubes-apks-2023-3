@@ -307,7 +307,7 @@ module.exports.default = function () {
 
     // Update movie by id
     const update = (data = MOVIE_DUMMY2, id = movieId) => {
-      res = http.patch(`${baseUrl}/movies/${id}`, JSON.stringify(data), {
+      res = http.put(`${baseUrl}/movies/${id}`, JSON.stringify(data), {
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + token,
@@ -498,6 +498,9 @@ module.exports.default = function () {
         "Get one reservation is OK": (r) => r.status === 200,
         // "Response is an object": (r) => typeof res.json() === "object",
       });
+
+			console.log(res.body);
+
     };
 
     // Update reservation by id
