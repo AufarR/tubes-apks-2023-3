@@ -1,12 +1,14 @@
-const http = require('k6/http');
+import http from 'k6/http';
+import { check } from 'k6';
 
-// belum diatur sesuai jenis test
 module.exports.options = {
-    vus: 2,
+    vus: 1,
     duration: '10s',
 };
 
-// belum diatur sesuai jenis test
 module.exports.default = function () {
-    http.get(`http://localhost:${__ENV.APP_PORT}/health`);
+    let res = http.get(`http://localhost:${__ENV.APP_PORT}/health`);
+    check(res, {
+        'API server health is OK': (r) => r.json()["API Server"] === "OK"
+    })
 };
