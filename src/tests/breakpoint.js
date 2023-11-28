@@ -1,19 +1,11 @@
-const http = require('k6/http');
-const path = require("path");
+import {mainTest} from './main.js'
 
-if (process.env.NODE_ENV !== "production") {
-    require("dotenv").config({ path: path.join(__dirname, "../.env") });
-}
-
-const port = process.env.APP_PORT || 5000;
-
-// belum diatur sesuai jenis test
 module.exports.options = {
-    vus: 10,
-    duration: '30s',
+    vus: 1,
+    duration: '30s'
 };
 
-// belum diatur sesuai jenis test
-module.exports.default = function () {
-    http.get('http://localhost:'+port+'/api/users');
-};
+module.exports.default = () => {
+    const baseUrl = 'http://localhost:'+__ENV.APP_PORT
+    mainTest(baseUrl)
+}
