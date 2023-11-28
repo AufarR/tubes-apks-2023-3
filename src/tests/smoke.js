@@ -5,17 +5,20 @@ import { check } from "k6";
 
 // belum diatur sesuai jenis test
 module.exports.options = {
-  vus: 1,
-  // duration: "1s",
-  iterations: 3,
-  // minIterationDuration: "1s",
-  // ttl: "1s",
+  stages: [
+    {
+      target: 2, duration: '10s'
+    },
+    {
+      target: 0, duration: '10s'
+    },
+  ]
 };
 
 // belum diatur sesuai jenis test
 module.exports.default = function () {
   // const port = process.env.APP_PORT || 5000;
-  const port = 5001;
+  const port = 5002;
   const baseUrl = `http://localhost:${port}`;
 
   let res;
@@ -23,7 +26,7 @@ module.exports.default = function () {
   const CREDENTIALS_DUMMY1 = {
     // username: __ENV.TEST_USERNAME || "",
     // password: __ENV.TEST_PASSWORD || "",
-    username: "superadmin",
+    username: "pege",
     password: "pw123456",
   };
 
@@ -120,8 +123,6 @@ module.exports.default = function () {
     seats: ["A"],
     ticketPrice: 50000,
     total: 1,
-    movieId: "650d3fa4dd4dc724ef947f6c",
-    cinemaId: "650c5c2ee1101d1be65d8a48",
     username: "wisnuas",
     phone: "08123456789",
     checkin: false,
@@ -466,7 +467,7 @@ module.exports.default = function () {
           // "Response is an object": (r) => typeof res.json() === "object",
         })
       ) {
-        reservationId = res.json()._id;
+        reservationId = res.json().reservation._id;
       }
     };
 
@@ -498,8 +499,6 @@ module.exports.default = function () {
         "Get one reservation is OK": (r) => r.status === 200,
         // "Response is an object": (r) => typeof res.json() === "object",
       });
-
-			console.log(res.body);
 
     };
 
