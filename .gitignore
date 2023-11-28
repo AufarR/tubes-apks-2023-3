@@ -95,3 +95,6 @@ avatars/
 images/
 uploads/
 .vscode/*
+
+# Test result folder
+test_results/*.json
