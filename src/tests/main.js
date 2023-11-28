@@ -1,13 +1,17 @@
 import http from 'k6/http';
 import { check, fail } from 'k6';
 
+// Ubah variabel ini
+const USERNAME = "superadmin"
+const PASSWORD = "pw123456"
+
 export function mainTest(baseUrl) {
-    
+
     let res;
 
     const credentials = {
-        username: __ENV.TEST_USERNAME || "",
-        password: __ENV.TEST_PASSWORD || "",
+        username: USERNAME || "",
+        password: PASSWORD || "",
     }
 
     // Login
@@ -27,7 +31,7 @@ export function mainTest(baseUrl) {
 
     // Get all cinemas
     res = http.get(`${baseUrl}/cinemas`);
-    
+
     check(res, {
         'Status is OK' : (r) => r.status === 200,
         'Response is an array' : (r) => Array.isArray(res.json())
@@ -35,7 +39,7 @@ export function mainTest(baseUrl) {
 
     // Get all showtimes
     res = http.get(`${baseUrl}/showtimes`);
-    
+
     check(res, {
         'Status is OK' : (r) => r.status === 200,
         'Response is an array' : (r) => Array.isArray(res.json())

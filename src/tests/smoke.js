@@ -1,16 +1,17 @@
 import http from "k6/http";
 import { check } from "k6";
-// const http = require("k6/http");
-// const path = require("path");
+
+// Ubah variabel ini
+const APP_PORT = 5001;
+const HOST = "localhost";
+const USERNAME = "superadmin";
+const PASSWORD = "pw123456";
 
 // belum diatur sesuai jenis test
 module.exports.options = {
   stages: [
     {
-      target: 2, duration: '10s'
-    },
-    {
-      target: 0, duration: '10s'
+      target: 100, duration: '10s'
     },
   ]
 };
@@ -18,16 +19,16 @@ module.exports.options = {
 // belum diatur sesuai jenis test
 module.exports.default = function () {
   // const port = process.env.APP_PORT || 5000;
-  const port = 5002;
-  const baseUrl = `http://localhost:${port}`;
+  const port = APP_PORT;
+  const baseUrl = `http://${HOST}:${port}`;
 
   let res;
 
   const CREDENTIALS_DUMMY1 = {
     // username: __ENV.TEST_USERNAME || "",
     // password: __ENV.TEST_PASSWORD || "",
-    username: "pege",
-    password: "pw123456",
+    username: USERNAME,
+    password: PASSWORD,
   };
 
   let token;
@@ -150,7 +151,11 @@ module.exports.default = function () {
           // "Response is an object": (r) => typeof res.json() === "object",
         })
       )
-        token = res.json().token;
+        {token = res.json().token;}
+				else {
+					console.log(res.json());
+				}
+
     };
 
     const run = () => {

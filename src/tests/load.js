@@ -8,7 +8,11 @@ module.exports.options = {
     ],
 };
 
+// ubah variabel ini
+const APP_PORT = 5001
+const HOST = 'localhost'
+
 module.exports.default = () => {
-    const baseUrl = 'http://localhost:'+__ENV.APP_PORT
+    const baseUrl = `http://${HOST}:${APP_PORT}`
     mainTest(baseUrl)
 }
