@@ -20,7 +20,7 @@ ENV APP_PORT=$APP_PORT
 EXPOSE $APP_PORT
 
 # for development
-CMD npm run dev
+CMD npm start
 
 # for production
 # CMD npm run start
