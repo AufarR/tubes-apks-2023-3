@@ -2,14 +2,18 @@ const express = require('express');
 const upload = require('../utils/multer');
 const User = require('../models/user');
 const auth = require('../middlewares/auth');
+require('dotenv').config();
 
 const router = new express.Router();
 
 // Create a user
 router.post('/users', async (req, res) => {
   try {
-    const {role} = req.body;
-    if (role) throw new Error('you cannot set role property.');
+		if (process.env.NODE_ENV !== "development") {
+			const {role} = req.body;
+			if (role) throw new Error('you cannot set role property.');
+		}
+
     const user = new User(req.body);
     await user.save();
     const token = await user.generateAuthToken();

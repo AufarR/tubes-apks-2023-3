@@ -4,6 +4,10 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const { Schema } = mongoose;
+
+// const roleDefault = true;
+// if (process.env.NODE_ENV !== 'development') {
+
 const userSchema = Schema(
   {
     name: {
@@ -42,7 +46,7 @@ const userSchema = Schema(
     },
     role: {
       type: String,
-      default: 'guest',
+      // default: 'guest',
       enum: ['guest', 'admin', 'superadmin'],
     },
 
