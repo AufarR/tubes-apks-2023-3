@@ -1,8 +1,10 @@
 import {mainTest} from './main.js'
 
 module.exports.options = {
-    vus: 1,
-    duration: '30s'
+    stages: [
+        { duration: '2m', target: 5000 },
+        { duration: '1m', target: 0 },
+    ],
 };
 
 module.exports.default = () => {

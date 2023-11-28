@@ -1,8 +1,8 @@
 import {mainTest} from './main.js'
 
 module.exports.options = {
-    vus: 1,
-    duration: '30s'
+    vus: 25000,
+    duration: '2h'
 };
 
 module.exports.default = () => {
