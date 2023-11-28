@@ -7,9 +7,9 @@ import { check } from "k6";
 module.exports.options = {
   vus: 1,
   // duration: "1s",
-	iterations: 3,
-	// minIterationDuration: "1s",
-	// ttl: "1s",
+  iterations: 3,
+  // minIterationDuration: "1s",
+  // ttl: "1s",
 };
 
 // belum diatur sesuai jenis test
@@ -30,19 +30,19 @@ module.exports.default = function () {
   let token;
 
   const CINEMA_DUMMY1 = {
-    name: "cinema-bandung",
-    address: "bandung, 10",
-    phone: "08123456789",
-    location: "bandung",
-    price: 50000,
+    name: "PG",
+    ticketPrice: 50000,
+    city: "Bandung",
+    seats: ["A", "B", "C"],
+    seatsAvailable: 3,
   };
 
   const CINEMA_DUMMY2 = {
-    name: "cinema-jakarta",
-    address: "jakarta, 20",
-    phone: "08987654321",
-    location: "jakarta",
-    price: 30000,
+    name: "CGV",
+    ticketPrice: 30000,
+    city: "Jakarta",
+    seats: ["A", "B", "C"],
+    seatsAvailable: 3,
   };
 
   let cinemaId = "";
@@ -51,25 +51,31 @@ module.exports.default = function () {
   const CINEMA_PHOTO_DUMMY_PATH1 = "https://www.google.com";
 
   const MOVIE_DUMMY1 = {
-    title: "movie-bandung",
-    description: "movie-bandung",
-    duration: 120,
-    genre: "action",
-    director: "wisnu",
-    casts: ["wisnu", "wisnu"],
-    poster: "https://www.google.com",
-    trailer: "https://www.google.com",
+    title: "Tehe III",
+    image: "https://drive.google.com/uc?id=1Z_rsKKl94IhaZmnCO_1WcokD1IMVj8Gk",
+    language: "japanese",
+    genre: "action, fantasy, comedy",
+    director: "michaelpege",
+    cast: "michaelpege, phillipgunadi, rinne",
+    description:
+      "A love action comedy story about Ehit (Michael Pege) to pursue his love for a girl named Fu Tao (Rinne) part three",
+    duration: 118,
+    releaseDate: "2025/09/22",
+    endDate: "2025/10/14",
   };
 
   const MOVIE_DUMMY2 = {
-    title: "movie-jakarta",
-    description: "movie-jakarta",
-    duration: 120,
+    title: "Tehe IIIIIIIIIIIIIIII",
+    image: "https://drive.google.com/uc?id=1Z_rsKKl94IhaZmnCO_1WcokD1IMVj8Gk",
+    language: "jap",
     genre: "action",
-    director: "wisnu",
-    casts: ["wisnu", "wisnu"],
-    poster: "https://www.google.com",
-    trailer: "https://www.google.com",
+    director: "michael",
+    cast: "michaelpege",
+    description:
+      "A le) to pursue his love for a girl named Fu Tao (Rinne) part three",
+    duration: 100,
+    releaseDate: "2025/09/22",
+    endDate: "2025/10/14",
   };
 
   // const MOVIE_PHOTO_DUMMY_PATH1 = `${__ENV.TEST_PHOTO_PATH}`;
@@ -96,27 +102,29 @@ module.exports.default = function () {
   let showtimeId = "";
 
   const RESERVATION_DUMMY1 = {
-    date: "2025/09/24",
+    date: "2023/09/24",
     startAt: "bandung",
     seats: ["B"],
     ticketPrice: 50000,
     total: 1,
-    movieId: "65658dc08d2090ce8d8dcd6f",
-    cinemaId: "65658d488d209032e18dcd66",
-    username: "wisnu",
+    movieId: "650d3fa4dd4dc724ef947f6c",
+    cinemaId: "650c5c2ee1101d1be65d8a48",
+    username: "wisnuas",
     phone: "08123456789",
+    checkin: false,
   };
 
   const RESERVATION_DUMMY2 = {
-    date: "2025/09/24",
+    date: "2023/09/25",
     startAt: "jakarta",
-    seats: ["B"],
+    seats: ["A"],
     ticketPrice: 50000,
     total: 1,
-    movieId: "65658dc08d2090ce8d8dcd6f",
-    cinemaId: "65658d488d209032e18dcd66",
-    username: "wisnu",
+    movieId: "650d3fa4dd4dc724ef947f6c",
+    cinemaId: "650c5c2ee1101d1be65d8a48",
+    username: "wisnuas",
     phone: "08123456789",
+    checkin: false,
   };
 
   let reservationId = "";
@@ -142,9 +150,6 @@ module.exports.default = function () {
         })
       )
         token = res.json().token;
-
-			// console.log("body", res.json());
-			// console.log("token", token);
     };
 
     const run = () => {
@@ -173,8 +178,6 @@ module.exports.default = function () {
       ) {
         cinemaId = res.json()._id;
       }
-
-
     };
 
     // Get all cinemas
@@ -236,8 +239,9 @@ module.exports.default = function () {
 
     // Delete cinema by id
     const deleteOne = (id = cinemaId) => {
-      res = http.del(`${baseUrl}/cinemas/${id}`, {
+      res = http.del(`${baseUrl}/cinemas/${id}`, null, {
         headers: {
+          "Content-Type": "application/json",
           Authorization: "Bearer " + token,
         },
       });
@@ -253,7 +257,7 @@ module.exports.default = function () {
       getAll();
       getOne();
       update();
-      uploadPhoto();
+      // uploadPhoto();
       deleteOne();
     };
 
@@ -340,7 +344,7 @@ module.exports.default = function () {
 
     // Delete movie by id
     const deleteOne = (id = movieId) => {
-      res = http.del(`${baseUrl}/movies/${id}`, {
+      res = http.del(`${baseUrl}/movies/${id}`, null, {
         headers: {
           Authorization: "Bearer " + token,
         },
@@ -357,7 +361,7 @@ module.exports.default = function () {
       getAll();
       getOne();
       update();
-      uploadPhoto();
+      // uploadPhoto();
       deleteOne();
     };
 
@@ -422,7 +426,7 @@ module.exports.default = function () {
 
     // Delete showtime by id
     const deleteOne = (id = showtimeId) => {
-      res = http.del(`${baseUrl}/showtimes/${id}`, {
+      res = http.del(`${baseUrl}/showtimes/${id}`, null, {
         headers: {
           Authorization: "Bearer " + token,
         },
@@ -513,7 +517,7 @@ module.exports.default = function () {
 
     // Delete reservation by id
     const deleteOne = (id = reservationId) => {
-      res = http.del(`${baseUrl}/reservations/${id}`, {
+      res = http.del(`${baseUrl}/reservations/${id}`, null, {
         headers: {
           Authorization: "Bearer " + token,
         },
@@ -539,9 +543,9 @@ module.exports.default = function () {
   const run = () => {
     userSmoke().run();
     cinemaSmoke().run();
-    // movieSmoke().run();
-    // showtimeSmoke().run();
-    // reservationSmoke().run();
+    movieSmoke().run();
+    showtimeSmoke().run();
+    reservationSmoke().run();
   };
 
   run();
